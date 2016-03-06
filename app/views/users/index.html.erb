@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Geoportal Madrid</title>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+	    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+	<style>
+		html, body, #map{
+			height: 80%;
+			padding: 10%;
+			margin: 0%;
+		}
+	</style>
+
+	</head>
+
+	<body>
+		<div id="map"></div>
+   		 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+   		 <script>
+   		 var url = 'https://team.cartodb.com/u/jaimedemora/api/v2/viz/da0faccc-e390-11e5-9fb9-0ecfd53eb7d3/viz.json'
+
+			cartodb.createVis('map', url)
+  			.done(function(vis, layers) {
+  			});
+  		</script>
+	</body>
+
+</html>

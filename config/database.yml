@@ -28,14 +28,14 @@ development:
   <<: *default
   database: geomadrid_dev
   pool: 5
-  username: jaimedemora
+  username: jaime
   password: vamosk22
 
 test:  
   <<: *default
   database: geomadrid_test
   pool: 5
-  username: jaimedemora
+  username: jaime
   password: vamosk22
 
   # The specified database role being used to connect to postgres.
@@ -91,5 +91,5 @@ test:
 production:
   <<: *default
   database: geomadrid_produ
-  username: jaimedemora
+  username: jaime
   password: vamosk22
