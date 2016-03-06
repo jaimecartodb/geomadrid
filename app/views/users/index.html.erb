@@ -8,23 +8,78 @@
 	    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
 	<style>
 		html, body, #map{
-			height: 80%;
-			padding: 10%;
+			height: 100%;
+			padding: 0%;
 			margin: 0%;
+		}
+		#map {
+			height: 100%;
+			padding: 0%;
+			margin-left: 25%;
+		}
+		#dashboard {
+			height: 0%;
+			padding: 0%;
+			margin-right: 0%;
+			border-right: 2px solid #333;
+		}
+		#dash {
+			margin: 25px 0;
+			width: 400px;
 		}
 	</style>
 
 	</head>
 
 	<body>
+		<div id="dashboard">
+        	<h3 class="Title Title--xs">Welcome to Madrid's Geoportal!</h3>
+   		</div>
 		<div id="map"></div>
-   		 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+   		 <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
    		 <script>
-   		 var url = 'https://team.cartodb.com/u/jaimedemora/api/v2/viz/da0faccc-e390-11e5-9fb9-0ecfd53eb7d3/viz.json'
+			window.onload = function () {
+			  // Instantiate new map object, place it in 'map' element
+			  var map_object = new L.Map('map', {
+			    center: [40.40,-3.70], // Southern France
+			    zoom: 10
+			  });
 
-			cartodb.createVis('map', url)
-  			.done(function(vis, layers) {
-  			});
+			  // Put layer data into a JS object
+				var layerSource = {
+				  user_name: 'documentation',
+				  type: 'cartodb',
+				  sublayers: [{
+				    sql: "SELECT * FROM africa_adm0", // African countries
+				  },
+				  {
+				    sql: "SELECT * FROM ne_50m_lakes", // Natural and artificial lakes
+				    cartocss: '#ne_50m_lakes {polygon-fill: #0000FF;}'
+				  }]
+				}
+
+			  // For storing the sublayers
+			  var sublayers = [];
+
+			  // Pull tiles from OpenStreetMap
+			  L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+			    attribution: 'CartoDB'
+			  }).addTo(map_object);
+
+			  // Add data layer to your map
+			  cartodb.createLayer(map_object,layerSource)
+			    .addTo(map_object)
+			    .done(function(layer) {
+			      for (var i = 0; i < layer.getSubLayerCount(); i++) {
+			        sublayers[i] = layer.getSubLayer(i);
+			        alert("Congrats, you added sublayer #" + i + "!");
+			      } 
+			    })
+			    .error(function(err) {
+			      console.log("error: " + err);
+			    });
+			}
+   		    
   		</script>
 	</body>
 
