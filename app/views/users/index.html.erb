@@ -34,52 +34,39 @@
 	<body>
 		<div id="dashboard">
         	<h3 class="Title Title--xs">Welcome to Madrid's Geoportal!</h3>
+        	<br>
+        	<button class="select"></button>
    		</div>
 		<div id="map"></div>
-   		 <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+		<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
    		 <script>
 			window.onload = function () {
-			  // Instantiate new map object, place it in 'map' element
-			  var map_object = new L.Map('map', {
-			    center: [40.40,-3.70], // Southern France
-			    zoom: 10
-			  });
 
-			  // Put layer data into a JS object
-				var layerSource = {
-				  user_name: 'documentation',
-				  type: 'cartodb',
-				  sublayers: [{
-				    sql: "SELECT * FROM africa_adm0", // African countries
-				  },
-				  {
-				    sql: "SELECT * FROM ne_50m_lakes", // Natural and artificial lakes
-				    cartocss: '#ne_50m_lakes {polygon-fill: #0000FF;}'
-				  }]
-				}
-
-			  // For storing the sublayers
-			  var sublayers = [];
-
-			  // Pull tiles from OpenStreetMap
-			  L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-			    attribution: 'CartoDB'
-			  }).addTo(map_object);
-
-			  // Add data layer to your map
-			  cartodb.createLayer(map_object,layerSource)
-			    .addTo(map_object)
-			    .done(function(layer) {
-			      for (var i = 0; i < layer.getSubLayerCount(); i++) {
-			        sublayers[i] = layer.getSubLayer(i);
-			        alert("Congrats, you added sublayer #" + i + "!");
-			      } 
-			    })
-			    .error(function(err) {
-			      console.log("error: " + err);
+				cartodb.createVis('map', 'https://team.cartodb.com/u/jaimedemora/api/v2/viz/18ba3cae-e859-11e5-b94d-0e3ff518bd15/viz.json')
+  				.done(function(vis, layers) {
+    // layer 0 is the base layer, layer 1 is cartodb layer
+    // when setInteraction is disabled featureOver is triggered
+			    layers[1].setInteraction(true);
+			    layers[1].on('featureOver', function(e, latlng, pos, data, layerNumber) {
+			      console.log(e, latlng, pos, data, layerNumber);
 			    });
-			}
-   		    
+
+			    cartodb.createLayer('map', {
+			    	user_name: 'jaimedemora',
+			    	type: 'cartodb',
+			    	sublayers: [{
+			    		sql: "SELECT * from table_130111_vias_ciclistas",
+			    		cartocss: '#table_130111_vias_ciclistas { line-color: #0080ff; line-width: 3;}'
+			    	}]
+			    }).addTo('map');
+    // you can get the native map to work with it
+
+    // now, perform any operations you need, e.g. assuming map is a L.Map object:
+    // map.setZoom(3);
+    // map.panTo([50.5, 30.5]);
+  });
+
+			} 
   		</script>
 	</body>
 
