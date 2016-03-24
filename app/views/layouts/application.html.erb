@@ -1,25 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Geomadrid</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<div id="top_bar">
-	<% if user_signed_in? %>
-		<p><%= link_to 'Sign out', destroy_user_session_path, method: 'DELETE' %></p>
-	<%else %>
-		<p>
-			<%= link_to 'Sign up', new_user_registration_path %> |
-			<%= link_to 'Sign in', new_user_session_path %>
-		</p>
-	<% end %>
-</div>
+	<head>
+	  <title>Geoportal Madrid</title>
+	  <meta charset="UTF-8">
+	  <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+	  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+	  <%= stylesheet_link_tag    'application', media: 'all' %>
+	  <%= javascript_include_tag 'application' %>
+	  <%= csrf_meta_tags %>
+
+		<style>
+
+			html, body{
+				height: 100%;
+				padding: 0%;
+				margin: 0%;
+			}
+			#map_div {
+				height: 100%;
+				padding: 0%;
+				margin-left: 25%;
+			}
+			#dashboard {
+				height: 0%;
+				padding: 0%;
+				margin-right: 0%;
+				border-right: 2px solid #333;
+			}
 
 
-<%= yield %>
+		</style>
+	</head>
+	<body>
+		<div id="top_bar">
+			<% if user_signed_in? %>
+				<p><%= link_to 'Sign out', destroy_user_session_path, method: 'DELETE' %></p>
+			<%else %>
+				<p>
+					<%= link_to 'Sign up', new_user_registration_path %> |
+					<%= link_to 'Sign in', new_user_session_path %>
+				</p>
+			<% end %>
+		</div>
 
-</body>
+		<%= yield %>
+
+		<div id="map_div"></div>
+
+	</body>
 </html>

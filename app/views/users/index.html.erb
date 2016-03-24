@@ -39,35 +39,7 @@
    		</div>
 		<div id="map"></div>
 		<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-   		 <script>
-			window.onload = function () {
-
-				cartodb.createVis('map', 'https://team.cartodb.com/u/jaimedemora/api/v2/viz/18ba3cae-e859-11e5-b94d-0e3ff518bd15/viz.json')
-  				.done(function(vis, layers) {
-    // layer 0 is the base layer, layer 1 is cartodb layer
-    // when setInteraction is disabled featureOver is triggered
-			    layers[1].setInteraction(true);
-			    layers[1].on('featureOver', function(e, latlng, pos, data, layerNumber) {
-			      console.log(e, latlng, pos, data, layerNumber);
-			    });
-
-			    cartodb.createLayer('map', {
-			    	user_name: 'jaimedemora',
-			    	type: 'cartodb',
-			    	sublayers: [{
-			    		sql: "SELECT * from table_130111_vias_ciclistas",
-			    		cartocss: '#table_130111_vias_ciclistas { line-color: #0080ff; line-width: 3;}'
-			    	}]
-			    }).addTo('map');
-    // you can get the native map to work with it
-
-    // now, perform any operations you need, e.g. assuming map is a L.Map object:
-    // map.setZoom(3);
-    // map.panTo([50.5, 30.5]);
-  });
-
-			} 
-  		</script>
+   		 <%= javascript_include_tag 'maps.js' %>
 	</body>
 
 </html>
